@@ -14,6 +14,7 @@ public class CompaniesController {
 
     @PostMapping
     public long createCompany(@RequestBody Company company){
+        System.out.println("1");
         return companiesLogic.createCompany(company);
     }
 
