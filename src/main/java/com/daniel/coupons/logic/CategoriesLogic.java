@@ -6,6 +6,9 @@ import com.daniel.coupons.repositories.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CategoriesLogic {
 
@@ -33,6 +36,14 @@ public class CategoriesLogic {
         categoryRepository.save(categoryEntity);
     }
 
-
+    public List<Category> getCategories(){
+        Iterable<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        List<Category> categories = new ArrayList<>();
+        for(CategoryEntity categoryEntity : categoryEntities){
+            Category category = new Category(categoryEntity);
+            categories.add(category);
+        }
+        return categories;
+    }
 
 }

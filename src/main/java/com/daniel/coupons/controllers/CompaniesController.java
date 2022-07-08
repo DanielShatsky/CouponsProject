@@ -5,6 +5,8 @@ import com.daniel.coupons.logic.CompaniesLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/companies")
 public class CompaniesController {
@@ -30,5 +32,10 @@ public class CompaniesController {
     @DeleteMapping("/{id}")
     public void deleteCompanyById(@PathVariable("id") long id){
         companiesLogic.deleteCompanyById(id);
+    }
+
+    @GetMapping
+    public List<Company> getCompanies(){
+        return companiesLogic.getCompanies();
     }
 }

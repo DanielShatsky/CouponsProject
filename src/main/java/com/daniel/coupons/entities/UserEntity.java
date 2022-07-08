@@ -29,6 +29,7 @@ public class UserEntity {
     private Integer companyId;
 
     @Column(name = "user_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserType userType;
 
     public UserEntity() {

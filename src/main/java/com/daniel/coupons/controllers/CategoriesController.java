@@ -5,6 +5,8 @@ import com.daniel.coupons.logic.CategoriesLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/categories")
 public class CategoriesController {
@@ -18,17 +20,22 @@ public class CategoriesController {
     }
 
     @GetMapping("/{id}")
-    private Category getCategoryById(@PathVariable("id") long id){
+    public Category getCategoryById(@PathVariable("id") long id){
         return categoriesLogic.getCategoryById(id);
     }
 
     @PutMapping
-    private void updateCategory(@RequestBody Category category){
+    public void updateCategory(@RequestBody Category category){
         categoriesLogic.updateCategory(category);
     }
 
     @DeleteMapping("/{id}")
-    private void deleteCategoryById(@PathVariable("id") long id){
+    public void deleteCategoryById(@PathVariable("id") long id){
         categoriesLogic.deleteCategoryById(id);
+    }
+
+    @GetMapping
+    public List<Category> getCategories(){
+        return categoriesLogic.getCategories();
     }
 }
