@@ -10,6 +10,9 @@ import com.daniel.coupons.repositories.ICouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CouponsLogic {
 
@@ -57,5 +60,35 @@ public class CouponsLogic {
 
     public void deleteCouponById(long id) {
         couponRepository.deleteById(id);
+    }
+
+    public List<Coupon> getCoupons() {
+        Iterable<CouponEntity> couponEntities = couponRepository.findAll();
+        List<Coupon> coupons = new ArrayList<>();
+        for(CouponEntity couponEntity : couponEntities){
+            Coupon coupon = new Coupon(couponEntity);
+            coupons.add(coupon);
+        }
+        return coupons;
+    }
+
+    public List<Coupon> getCouponsByCompanyId(long companyId) {
+        List<CouponEntity> couponEntities = couponRepository.findByCompanyId(companyId);
+        List<Coupon> coupons = new ArrayList<>();
+        for(CouponEntity couponEntity : couponEntities){
+            Coupon coupon = new Coupon(couponEntity);
+            coupons.add(coupon);
+        }
+        return coupons;
+    }
+
+    public List<Coupon> getCouponsByCompanyIdAndCategoryId(long companyId, long categoryId) {
+        List<CouponEntity> couponEntities = couponRepository.findByCompanyIdAndCategoryId(companyId, categoryId);
+        List<Coupon> coupons = new ArrayList<>();
+        for(CouponEntity couponEntity : couponEntities){
+            Coupon coupon = new Coupon(couponEntity);
+            coupons.add(coupon);
+        }
+        return coupons;
     }
 }

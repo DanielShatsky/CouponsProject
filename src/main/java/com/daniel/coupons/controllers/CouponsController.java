@@ -5,6 +5,8 @@ import com.daniel.coupons.logic.CouponsLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/coupons")
 public class CouponsController {
@@ -32,4 +34,20 @@ public class CouponsController {
     public void deleteCouponById(@PathVariable("id") long id){
         couponsLogic.deleteCouponById(id);
     }
+
+    @GetMapping
+    public List<Coupon> getCoupons(){
+        return couponsLogic.getCoupons();
+    }
+
+    @GetMapping("byData")
+    public List<Coupon> getCouponsByCompanyId(@RequestParam("companyId") long companyId){
+        return couponsLogic.getCouponsByCompanyId(companyId);
+    }
+
+//    @GetMapping("byData")
+//    public List<Coupon> getCouponsByCompanyIdAndCategoryId(@RequestParam("companyId") long companyId,
+//                                                           @RequestParam("categoryId") long categoryId){
+//        return couponsLogic.getCouponsByCompanyIdAndCategoryId(companyId, categoryId);
+//    }
 }
