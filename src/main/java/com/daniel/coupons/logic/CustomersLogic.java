@@ -20,11 +20,18 @@ public class CustomersLogic {
     public long createCustomer(Customer customer){
         User user = customer.getUser();
         user.setUserType(UserType.CUSTOMER);
+        user.setCompanyId(null);
         long userId = usersLogic.createUser(user);
         user.setId(userId);
 
         CustomerEntity customersEntity = new CustomerEntity(customer);
         customerRepository.save(customersEntity);
         return customersEntity.getId();
+    }
+
+    public Customer getCustomerById(long customerId) {
+        CustomerEntity customerEntity = customerRepository.findById(customerId).get();
+        Customer customer = new Customer(customerEntity);
+        return customer;
     }
 }

@@ -49,6 +49,7 @@ public class CouponEntity {
         this.startDate = coupon.getStartDate();
         this.endDate = coupon.getEndDate();
         this.amount = coupon.getAmount();
+        this.price = coupon.getPrice();
         this.image = coupon.getImage();
     }
 

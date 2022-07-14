@@ -63,27 +63,36 @@ public class CouponsLogic {
     }
 
     public List<Coupon> getCoupons() {
-        Iterable<CouponEntity> couponEntities = couponRepository.findAll();
-        List<Coupon> coupons = new ArrayList<>();
-        for(CouponEntity couponEntity : couponEntities){
-            Coupon coupon = new Coupon(couponEntity);
-            coupons.add(coupon);
-        }
+        List<CouponEntity> couponEntities = couponRepository.findAll();
+        List<Coupon> coupons = convertCouponEntityToCouponList(couponEntities);
         return coupons;
     }
 
     public List<Coupon> getCouponsByCompanyId(long companyId) {
         List<CouponEntity> couponEntities = couponRepository.findByCompanyId(companyId);
-        List<Coupon> coupons = new ArrayList<>();
-        for(CouponEntity couponEntity : couponEntities){
-            Coupon coupon = new Coupon(couponEntity);
-            coupons.add(coupon);
-        }
+        List<Coupon> coupons = convertCouponEntityToCouponList(couponEntities);
         return coupons;
     }
 
     public List<Coupon> getCouponsByCompanyIdAndCategoryId(long companyId, long categoryId) {
         List<CouponEntity> couponEntities = couponRepository.findByCompanyIdAndCategoryId(companyId, categoryId);
+        List<Coupon> coupons = convertCouponEntityToCouponList(couponEntities);
+        return coupons;
+    }
+
+    public List<Coupon> getCouponsByMaxPrice(double maxPrice) {
+        List<CouponEntity> couponEntities = couponRepository.findByMaxPrice(maxPrice);
+        List<Coupon> coupons = convertCouponEntityToCouponList(couponEntities);
+        return coupons;
+    }
+
+    public List<Coupon> getCouponsByCategoryId(long categoryId) {
+        List<CouponEntity> couponEntities = couponRepository.findByCategoryId(categoryId);
+        List<Coupon> coupons = convertCouponEntityToCouponList(couponEntities);
+        return coupons;
+    }
+
+    private List<Coupon> convertCouponEntityToCouponList(List<CouponEntity> couponEntities){
         List<Coupon> coupons = new ArrayList<>();
         for(CouponEntity couponEntity : couponEntities){
             Coupon coupon = new Coupon(couponEntity);

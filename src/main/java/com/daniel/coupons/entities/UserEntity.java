@@ -1,5 +1,6 @@
 package com.daniel.coupons.entities;
 
+import com.daniel.coupons.dto.Customer;
 import com.daniel.coupons.dto.User;
 import com.daniel.coupons.enums.UserType;
 
@@ -31,6 +32,9 @@ public class UserEntity {
     @Column(name = "user_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    @OneToOne(mappedBy = "userEntity")
+    private CustomerEntity customerEntity;
 
     public UserEntity() {
     }

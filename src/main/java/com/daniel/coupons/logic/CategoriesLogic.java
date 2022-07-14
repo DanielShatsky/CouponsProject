@@ -1,7 +1,9 @@
 package com.daniel.coupons.logic;
 
 import com.daniel.coupons.dto.Category;
+import com.daniel.coupons.dto.Company;
 import com.daniel.coupons.entities.CategoryEntity;
+import com.daniel.coupons.entities.CompanyEntity;
 import com.daniel.coupons.repositories.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,12 @@ public class CategoriesLogic {
     }
 
     public List<Category> getCategories(){
-        Iterable<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        List<Category> categories = convertCategoryEntityListToCategoryList(categoryEntities);
+        return categories;
+    }
+
+    private List<Category> convertCategoryEntityListToCategoryList(List<CategoryEntity> categoryEntities){
         List<Category> categories = new ArrayList<>();
         for(CategoryEntity categoryEntity : categoryEntities){
             Category category = new Category(categoryEntity);

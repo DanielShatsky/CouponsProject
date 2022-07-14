@@ -2,8 +2,10 @@ package com.daniel.coupons.logic;
 
 import com.daniel.coupons.dto.Category;
 import com.daniel.coupons.dto.Company;
+import com.daniel.coupons.dto.Coupon;
 import com.daniel.coupons.entities.CategoryEntity;
 import com.daniel.coupons.entities.CompanyEntity;
+import com.daniel.coupons.entities.CouponEntity;
 import com.daniel.coupons.repositories.ICompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,12 @@ public class CompaniesLogic {
     }
 
     public List<Company> getCompanies(){
-        Iterable<CompanyEntity> companyEntities = companyRepository.findAll();
+        List<CompanyEntity> companyEntities = companyRepository.findAll();
+        List<Company> companies = convertCompanyEntityListToCompanyList(companyEntities);
+        return companies;
+    }
+
+    private List<Company> convertCompanyEntityListToCompanyList(List<CompanyEntity> companyEntities){
         List<Company> companies = new ArrayList<>();
         for(CompanyEntity companyEntity : companyEntities){
             Company company = new Company(companyEntity);

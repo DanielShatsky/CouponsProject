@@ -40,14 +40,24 @@ public class CouponsController {
         return couponsLogic.getCoupons();
     }
 
-    @GetMapping("byData")
+    @GetMapping("/byCompanyId")
     public List<Coupon> getCouponsByCompanyId(@RequestParam("companyId") long companyId){
         return couponsLogic.getCouponsByCompanyId(companyId);
     }
 
-//    @GetMapping("byData")
-//    public List<Coupon> getCouponsByCompanyIdAndCategoryId(@RequestParam("companyId") long companyId,
-//                                                           @RequestParam("categoryId") long categoryId){
-//        return couponsLogic.getCouponsByCompanyIdAndCategoryId(companyId, categoryId);
-//    }
+    @GetMapping("/byMaxPrice")
+    public List<Coupon> getCouponsByCompanyIdAndMaxPrice(@RequestParam("maxPrice") double maxPrice){
+        return couponsLogic.getCouponsByMaxPrice(maxPrice);
+    }
+
+    @GetMapping("/byCategoryId")
+    public List<Coupon> getCouponsByCategoryId(@RequestParam("categoryId") long categoryId){
+        return couponsLogic.getCouponsByCategoryId(categoryId);
+    }
+
+    @GetMapping("/byCompanyIdAndCategoryId")
+    public List<Coupon> getCouponsByCompanyIdAndCategoryId(@RequestParam("companyId") long companyId,
+                                                           @RequestParam("categoryId") long categoryId){
+        return couponsLogic.getCouponsByCompanyIdAndCategoryId(companyId, categoryId);
+    }
 }

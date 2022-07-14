@@ -12,7 +12,9 @@ public class CustomerEntity {
     @GeneratedValue
     private long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    @MapsId
     private UserEntity userEntity;
 
     @Column(name = "address")
