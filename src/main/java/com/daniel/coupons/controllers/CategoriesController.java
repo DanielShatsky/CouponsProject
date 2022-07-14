@@ -1,6 +1,7 @@
 package com.daniel.coupons.controllers;
 
 import com.daniel.coupons.dto.Category;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.logic.CategoriesLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class CategoriesController {
     private CategoriesLogic categoriesLogic;
 
     @PostMapping
-    public long createCategory(@RequestBody Category category){
+    public long createCategory(@RequestBody Category category) throws ApplicationException {
         return categoriesLogic.createCategory(category);
     }
 
@@ -25,7 +26,7 @@ public class CategoriesController {
     }
 
     @PutMapping
-    public void updateCategory(@RequestBody Category category){
+    public void updateCategory(@RequestBody Category category) throws ApplicationException {
         categoriesLogic.updateCategory(category);
     }
 

@@ -1,6 +1,7 @@
 package com.daniel.coupons.controllers;
 
 import com.daniel.coupons.dto.Coupon;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.logic.CouponsLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class CouponsController {
     private CouponsLogic couponsLogic;
 
     @PostMapping
-    public long createCoupon(@RequestBody Coupon coupon){
+    public long createCoupon(@RequestBody Coupon coupon) throws ApplicationException {
         System.out.println(coupon.toString());
         return couponsLogic.createCoupon(coupon);
     }
@@ -26,7 +27,7 @@ public class CouponsController {
     }
 
     @PutMapping
-    public void updateCoupon(@RequestBody Coupon coupon){
+    public void updateCoupon(@RequestBody Coupon coupon) throws ApplicationException {
         couponsLogic.updateCoupon(coupon);
     }
 

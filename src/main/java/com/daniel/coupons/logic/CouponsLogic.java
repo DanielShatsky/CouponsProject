@@ -6,6 +6,8 @@ import com.daniel.coupons.dto.Coupon;
 import com.daniel.coupons.entities.CategoryEntity;
 import com.daniel.coupons.entities.CompanyEntity;
 import com.daniel.coupons.entities.CouponEntity;
+import com.daniel.coupons.enums.ErrorType;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.repositories.ICouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,9 @@ public class CouponsLogic {
     @Autowired
     private CategoriesLogic categoriesLogic;
 
-    public long createCoupon(Coupon coupon){
+    public long createCoupon(Coupon coupon) throws ApplicationException {
+        validateCoupon(coupon);
+
         Company company = companiesLogic.getCompanyById(coupon.getCompanyId());
         CompanyEntity companyEntity = new CompanyEntity(company);
 
@@ -44,7 +48,8 @@ public class CouponsLogic {
         return coupon;
     }
 
-    public void updateCoupon(Coupon coupon) {
+    public void updateCoupon(Coupon coupon) throws ApplicationException {
+        validateCoupon(coupon);
         Company company = companiesLogic.getCompanyById(coupon.getCompanyId());
         CompanyEntity companyEntity = new CompanyEntity(company);
 
@@ -99,5 +104,38 @@ public class CouponsLogic {
             coupons.add(coupon);
         }
         return coupons;
+    }
+
+    private void validateCoupon(Coupon coupon) throws ApplicationException {
+        if(coupon.getTitle() == null || coupon.getTitle().isEmpty()){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_TITLE);
+        }
+        if(coupon.getDescription() == null || coupon.getDescription().isEmpty()){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_DESCRIPTION);
+        }
+        if(coupon.getStartDate() == null){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_DATE);
+        }
+        if(coupon.getEndDate() == null) {
+            throw new ApplicationException(ErrorType.INVALID_COUPON_DATE);
+        }
+        if(coupon.getAmount() < 0){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_AMOUNT);
+        }
+        if(coupon.getPrice() <= 0){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_PRICE);
+        }
+        if(!this.companiesLogic.isCompanyExistById(coupon.getCompanyId())){
+            throw new ApplicationException(ErrorType.INVALID_COMPANY_ID);
+        }
+        if(!this.categoriesLogic.isCategoryExistById(coupon.getCategoryId())){
+            throw new ApplicationException(ErrorType.INVALID_CATEGORY_ID);
+        }
+        if(coupon.getStartDate().after(coupon.getEndDate())){
+            throw new ApplicationException(ErrorType.INVALID_COUPON_DATE);
+        }
+//        if(couponRepository.existByTitle(coupon.getTitle())){
+//            throw new ApplicationException(ErrorType.COUPON_TITLE_ALREADY_EXIST);
+//        }
     }
 }

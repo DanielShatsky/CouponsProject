@@ -1,5 +1,6 @@
 package com.daniel.coupons.repositories;
 
+import com.daniel.coupons.dto.Coupon;
 import com.daniel.coupons.entities.CompanyEntity;
 import com.daniel.coupons.entities.CouponEntity;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,7 @@ public interface ICouponRepository extends CrudRepository<CouponEntity, Long> {
     List<CouponEntity> findByCompanyId(long id);
     List<CouponEntity> findByCompanyIdAndCategoryId(long companyId, long categoryId);
 
-    @Query(value = "SELECT c FROM CouponEntity c WHERE c.price <= :maxPrice")
+    @Query("SELECT c FROM CouponEntity c WHERE c.price <= :maxPrice")
     List<CouponEntity> findByMaxPrice(@Param("maxPrice") double maxPrice);
 
     List<CouponEntity> findByCategoryId(long categoryId);

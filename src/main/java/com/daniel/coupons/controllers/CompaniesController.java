@@ -1,6 +1,7 @@
 package com.daniel.coupons.controllers;
 
 import com.daniel.coupons.dto.Company;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.logic.CompaniesLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class CompaniesController {
     private CompaniesLogic companiesLogic;
 
     @PostMapping
-    public long createCompany(@RequestBody Company company){
+    public long createCompany(@RequestBody Company company) throws ApplicationException {
         return companiesLogic.createCompany(company);
     }
 
@@ -25,7 +26,7 @@ public class CompaniesController {
     }
 
     @PutMapping
-    public void updateCompany(@RequestBody Company company){
+    public void updateCompany(@RequestBody Company company) throws ApplicationException {
         companiesLogic.updateCompany(company);
     }
 

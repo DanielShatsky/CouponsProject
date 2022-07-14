@@ -4,6 +4,8 @@ import com.daniel.coupons.dto.Category;
 import com.daniel.coupons.dto.Company;
 import com.daniel.coupons.entities.CategoryEntity;
 import com.daniel.coupons.entities.CompanyEntity;
+import com.daniel.coupons.enums.ErrorType;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.repositories.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ public class CategoriesLogic {
     @Autowired
     private ICategoryRepository categoryRepository;
 
-    public long createCategory(Category category){
+    public long createCategory(Category category) throws ApplicationException {
+        validateCategory(category);
         CategoryEntity categoryEntity = new CategoryEntity(category);
         categoryRepository.save(categoryEntity);
         return categoryEntity.getId();
@@ -33,7 +36,8 @@ public class CategoriesLogic {
         categoryRepository.deleteById(id);
     }
 
-    public void updateCategory(Category category){
+    public void updateCategory(Category category) throws ApplicationException {
+        validateCategory(category);
         CategoryEntity categoryEntity = new CategoryEntity(category);
         categoryRepository.save(categoryEntity);
     }
@@ -53,4 +57,13 @@ public class CategoriesLogic {
         return categories;
     }
 
+    public boolean isCategoryExistById(long categoryId) {
+        return categoryRepository.existsById(categoryId);
+    }
+
+    private void validateCategory(Category category) throws ApplicationException {
+        if(category.getName() != null || category.getName().isEmpty()){
+            throw new ApplicationException(ErrorType.INVALID_CATEGORY_NAME);
+        }
+    }
 }

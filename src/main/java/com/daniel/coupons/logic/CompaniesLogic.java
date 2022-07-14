@@ -1,11 +1,9 @@
 package com.daniel.coupons.logic;
 
-import com.daniel.coupons.dto.Category;
 import com.daniel.coupons.dto.Company;
-import com.daniel.coupons.dto.Coupon;
-import com.daniel.coupons.entities.CategoryEntity;
 import com.daniel.coupons.entities.CompanyEntity;
-import com.daniel.coupons.entities.CouponEntity;
+import com.daniel.coupons.enums.ErrorType;
+import com.daniel.coupons.exceptions.ApplicationException;
 import com.daniel.coupons.repositories.ICompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,8 @@ public class CompaniesLogic {
     @Autowired
     private ICompanyRepository companyRepository;
 
-    public long createCompany(Company company){
+    public long createCompany(Company company) throws ApplicationException {
+        validateCompany(company);
         CompanyEntity companyEntity = new CompanyEntity(company);
         companyRepository.save(companyEntity);
         return companyEntity.getId();
@@ -31,7 +30,8 @@ public class CompaniesLogic {
         return company;
     }
 
-    public void updateCompany(Company company){
+    public void updateCompany(Company company) throws ApplicationException {
+        validateCompany(company);
         CompanyEntity companyEntity = new CompanyEntity(company);
         companyRepository.save(companyEntity);
     }
@@ -53,5 +53,22 @@ public class CompaniesLogic {
             companies.add(company);
         }
         return companies;
+    }
+
+    public boolean isCompanyExistById(long id){
+        return companyRepository.existsById(id);
+    }
+
+    private void validateCompany(Company company) throws ApplicationException {
+        if(company.getName() == null || company.getName().isEmpty()){
+            throw new ApplicationException(ErrorType.INVALID_COMPANY_NAME);
+        }
+        if(company.getPhoneNumber() == null || company.getPhoneNumber().isEmpty()){
+            throw new ApplicationException(ErrorType.INVALID_COMPANY_PHONE_NUMBER);
+        }
+
+//        if(this.companiesDal.isCompanyExistByName(company.getName())){
+//            throw new ApplicationException(ErrorType.COMPANY_ALREADY_EXIST);
+//        }
     }
 }

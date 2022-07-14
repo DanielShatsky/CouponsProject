@@ -104,4 +104,12 @@ public class UserEntity {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    public CustomerEntity getCustomerEntity() {
+        return customerEntity;
+    }
+
+    public void setCustomerEntity(CustomerEntity customerEntity) {
+        this.customerEntity = customerEntity;
+    }
 }

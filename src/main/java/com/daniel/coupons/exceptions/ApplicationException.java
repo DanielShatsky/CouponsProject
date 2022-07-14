@@ -28,4 +28,20 @@ public class ApplicationException extends Exception{
         this.errorType = errorType;
         this.metaDataForTroubleshooting = metaDataForTroubleshooting;
     }
+
+    public ErrorType getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(ErrorType errorType) {
+        this.errorType = errorType;
+    }
+
+    public String getMetaDataForTroubleshooting() {
+        return metaDataForTroubleshooting;
+    }
+
+    public void setMetaDataForTroubleshooting(String metaDataForTroubleshooting) {
+        this.metaDataForTroubleshooting = metaDataForTroubleshooting;
+    }
 }

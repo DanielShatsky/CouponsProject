@@ -18,6 +18,7 @@ public class CustomersLogic {
     private UsersLogic usersLogic;
 
     public long createCustomer(Customer customer){
+
         User user = customer.getUser();
         user.setUserType(UserType.CUSTOMER);
         user.setCompanyId(null);
