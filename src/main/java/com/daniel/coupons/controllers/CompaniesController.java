@@ -21,7 +21,7 @@ public class CompaniesController {
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable("id") long id){
+    public Company getCompanyById(@PathVariable("id") long id) throws ApplicationException {
         return companiesLogic.getCompanyById(id);
     }
 
@@ -31,7 +31,7 @@ public class CompaniesController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCompanyById(@PathVariable("id") long id){
+    public void deleteCompanyById(@PathVariable("id") long id) throws ApplicationException {
         companiesLogic.deleteCompanyById(id);
     }
 

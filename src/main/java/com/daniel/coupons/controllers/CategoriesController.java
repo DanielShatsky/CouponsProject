@@ -21,7 +21,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable("id") long id){
+    public Category getCategoryById(@PathVariable("id") long id) throws ApplicationException {
         return categoriesLogic.getCategoryById(id);
     }
 
@@ -31,7 +31,7 @@ public class CategoriesController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCategoryById(@PathVariable("id") long id){
+    public void deleteCategoryById(@PathVariable("id") long id) throws ApplicationException {
         categoriesLogic.deleteCategoryById(id);
     }
 

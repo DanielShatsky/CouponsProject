@@ -19,4 +19,5 @@ public interface ICouponRepository extends CrudRepository<CouponEntity, Long> {
     List<CouponEntity> findByMaxPrice(@Param("maxPrice") double maxPrice);
 
     List<CouponEntity> findByCategoryId(long categoryId);
+    boolean existsByTitle(String title);
 }

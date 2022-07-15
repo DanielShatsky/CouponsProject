@@ -8,4 +8,5 @@ import java.util.List;
 public interface ICategoryRepository extends CrudRepository<CategoryEntity, Long> {
 
     List<CategoryEntity> findAll();
+    boolean existsByName(String name);
 }

@@ -22,7 +22,7 @@ public class CouponsController {
     }
 
     @GetMapping("/{id}")
-    public Coupon getCouponById(@PathVariable("id") long id){
+    public Coupon getCouponById(@PathVariable("id") long id) throws ApplicationException {
         return couponsLogic.getCouponById(id);
     }
 
@@ -32,7 +32,7 @@ public class CouponsController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCouponById(@PathVariable("id") long id){
+    public void deleteCouponById(@PathVariable("id") long id) throws ApplicationException {
         couponsLogic.deleteCouponById(id);
     }
 

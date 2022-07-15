@@ -26,6 +26,7 @@ public class CouponsLogic {
     private CategoriesLogic categoriesLogic;
 
     public long createCoupon(Coupon coupon) throws ApplicationException {
+        validateCreateCoupon(coupon);
         validateCoupon(coupon);
 
         Company company = companiesLogic.getCompanyById(coupon.getCompanyId());
@@ -42,13 +43,17 @@ public class CouponsLogic {
         return couponEntity.getId();
     }
 
-    public Coupon getCouponById(long id) {
+    public Coupon getCouponById(long id) throws ApplicationException {
+        if(!categoriesLogic.isCategoryExistById(id)){
+            throw new ApplicationException(ErrorType.CATEGORY_DOESNT_EXIST);
+        }
         CouponEntity couponEntity = couponRepository.findById(id).get();
         Coupon coupon = new Coupon(couponEntity);
         return coupon;
     }
 
     public void updateCoupon(Coupon coupon) throws ApplicationException {
+        validateUpdateCoupon(coupon);
         validateCoupon(coupon);
         Company company = companiesLogic.getCompanyById(coupon.getCompanyId());
         CompanyEntity companyEntity = new CompanyEntity(company);
@@ -63,7 +68,10 @@ public class CouponsLogic {
         couponRepository.save(couponEntity);
     }
 
-    public void deleteCouponById(long id) {
+    public void deleteCouponById(long id) throws ApplicationException {
+        if(!couponRepository.existsById(id)){
+            throw new ApplicationException(ErrorType.COUPON_DOESNT_EXIST);
+        }
         couponRepository.deleteById(id);
     }
 
@@ -106,6 +114,21 @@ public class CouponsLogic {
         return coupons;
     }
 
+    private void validateCreateCoupon(Coupon coupon) throws ApplicationException {
+        if(couponRepository.existsByTitle(coupon.getTitle())){
+            throw new ApplicationException(ErrorType.COUPON_TITLE_ALREADY_EXIST);
+        }
+    }
+
+    private void validateUpdateCoupon(Coupon coupon) throws ApplicationException {
+        if(!couponRepository.existsById(coupon.getId())){
+            throw new ApplicationException(ErrorType.COUPON_DOESNT_EXIST);
+        }
+        if(couponRepository.findById(coupon.getId()).get().getCompany().getId() != coupon.getCompanyId()){
+            throw new ApplicationException(ErrorType.COUPON_COMPANY_ID_CANT_BE_CHANGED);
+        }
+    }
+
     private void validateCoupon(Coupon coupon) throws ApplicationException {
         if(coupon.getTitle() == null || coupon.getTitle().isEmpty()){
             throw new ApplicationException(ErrorType.INVALID_COUPON_TITLE);
@@ -134,8 +157,5 @@ public class CouponsLogic {
         if(coupon.getStartDate().after(coupon.getEndDate())){
             throw new ApplicationException(ErrorType.INVALID_COUPON_DATE);
         }
-//        if(couponRepository.existByTitle(coupon.getTitle())){
-//            throw new ApplicationException(ErrorType.COUPON_TITLE_ALREADY_EXIST);
-//        }
     }
 }

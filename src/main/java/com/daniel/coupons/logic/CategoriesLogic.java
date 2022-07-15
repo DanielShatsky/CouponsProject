@@ -20,23 +20,35 @@ public class CategoriesLogic {
     private ICategoryRepository categoryRepository;
 
     public long createCategory(Category category) throws ApplicationException {
+        if(categoryRepository.existsByName(category.getName())){
+            throw new ApplicationException(ErrorType.CATEGORY_ALREADY_EXIST);
+        }
         validateCategory(category);
         CategoryEntity categoryEntity = new CategoryEntity(category);
         categoryRepository.save(categoryEntity);
         return categoryEntity.getId();
     }
 
-    public Category getCategoryById(long id){
+    public Category getCategoryById(long id) throws ApplicationException {
+        if(!isCategoryExistById(id)){
+            throw new ApplicationException(ErrorType.CATEGORY_DOESNT_EXIST);
+        }
         CategoryEntity categoryEntity = categoryRepository.findById(id).get();
         Category category = new Category(categoryEntity);
         return category;
     }
 
-    public void deleteCategoryById(long id){
+    public void deleteCategoryById(long id) throws ApplicationException {
+        if(!isCategoryExistById(id)){
+            throw new ApplicationException(ErrorType.CATEGORY_DOESNT_EXIST);
+        }
         categoryRepository.deleteById(id);
     }
 
     public void updateCategory(Category category) throws ApplicationException {
+        if(!isCategoryExistById(category.getId())){
+            throw new ApplicationException(ErrorType.CATEGORY_DOESNT_EXIST);
+        }
         validateCategory(category);
         CategoryEntity categoryEntity = new CategoryEntity(category);
         categoryRepository.save(categoryEntity);
@@ -62,8 +74,11 @@ public class CategoriesLogic {
     }
 
     private void validateCategory(Category category) throws ApplicationException {
-        if(category.getName() != null || category.getName().isEmpty()){
+        if(category.getName() == null || category.getName().isEmpty()){
             throw new ApplicationException(ErrorType.INVALID_CATEGORY_NAME);
+        }
+        if(categoryRepository.existsByName(category.getName())){
+            throw new ApplicationException(ErrorType.CATEGORY_ALREADY_EXIST);
         }
     }
 }

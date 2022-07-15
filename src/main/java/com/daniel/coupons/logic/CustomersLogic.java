@@ -18,13 +18,9 @@ public class CustomersLogic {
     private UsersLogic usersLogic;
 
     public long createCustomer(Customer customer){
-
         User user = customer.getUser();
         user.setUserType(UserType.CUSTOMER);
         user.setCompanyId(null);
-        long userId = usersLogic.createUser(user);
-        user.setId(userId);
-
         CustomerEntity customersEntity = new CustomerEntity(customer);
         customerRepository.save(customersEntity);
         return customersEntity.getId();
@@ -34,5 +30,14 @@ public class CustomersLogic {
         CustomerEntity customerEntity = customerRepository.findById(customerId).get();
         Customer customer = new Customer(customerEntity);
         return customer;
+    }
+
+    public void updateCustomer(Customer customer) {
+        CustomerEntity customerEntity = new CustomerEntity(customer);
+        customerRepository.save(customerEntity);
+    }
+
+    public void deleteCustomerById(long id) {
+        customerRepository.deleteById(id);
     }
 }
